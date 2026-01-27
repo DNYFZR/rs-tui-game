@@ -1,0 +1,13 @@
+[package]
+name = "rs-tui-game"
+version = "0.1.1"
+edition = "2024"
+
+[dependencies]
+rand = "0.9"
+
+[profile.release]
+codegen-units = 1
+lto = true
+opt-level = "s"
+strip = true

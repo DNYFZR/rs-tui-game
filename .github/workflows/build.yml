@@ -15,9 +15,6 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: actions-rust-lang/setup-rust-toolchain@v1
-      - uses: actions/setup-node@v4
-        with:
-          node-version: lts/*
 
       - name: Build App
         run: cargo build --release
@@ -26,8 +23,8 @@ jobs:
         id: package-version
         shell: pwsh
         run: |
-          # Extract version from package.json using npm, remove quotes
-          $version = npm pkg get version --ws=false | ConvertFrom-Json
+          # Extract version from Cargo.toml using cargo metadata
+          $version = (cargo metadata --no-deps --format-version 1 | ConvertFrom-Json).packages[0].version
           # Set environment variable for subsequent steps
           echo "APP_VERSION=$version" >> $env:GITHUB_ENV
 
